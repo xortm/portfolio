@@ -68,12 +68,57 @@ function HomeSection() {
           <div className="stat-label">天学习计划</div>
         </div>
         <div className="stat-item">
-          <div className="stat-number">1</div>
-          <div className="stat-label">第1天</div>
+          <div className="stat-number">2</div>
+          <div className="stat-label">第2天</div>
         </div>
         <div className="stat-item">
           <div className="stat-number">100%</div>
           <div className="stat-label">热情</div>
+        </div>
+      </div>
+
+      <div className="projects">
+        <h2>🚀 我的项目</h2>
+        <div className="project-grid">
+          <div className="project-card">
+            <div className="project-icon">🎮</div>
+            <h3>俄罗斯方块</h3>
+            <p>经典网页版俄罗斯方块游戏</p>
+            <div className="project-tags">
+              <span>Canvas</span>
+              <span>JavaScript</span>
+            </div>
+            <a href="https://xortm.github.io/tetris/" target="_blank" rel="noopener noreferrer" className="project-link">
+              玩玩游戏 →
+            </a>
+          </div>
+
+          <div className="project-card">
+            <div className="project-icon">🌐</div>
+            <h3>个人作品集</h3>
+            <p>响应式单页应用，展示我的学习成果</p>
+            <div className="project-tags">
+              <span>React</span>
+              <span>Vite</span>
+            </div>
+            <a href="https://xortm.github.io/portfolio/" target="_blank" rel="noopener noreferrer" className="project-link">
+              查看网站 →
+            </a>
+          </div>
+
+          <div className="project-card">
+            <div className="project-icon">🔧</div>
+            <h3>API 服务器</h3>
+            <p>基于 Express 的 RESTful API</p>
+            <div className="project-tags">
+              <span>Node.js</span>
+              <span>Express</span>
+              <span>SQLite</span>
+            </div>
+            <a href="https://github.com/xortm/api-server" target="_blank" rel="noopener noreferrer" className="project-link">
+              查看代码 →
+            </a>
+          </div>
         </div>
       </div>
     </section>
