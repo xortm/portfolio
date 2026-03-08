@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import DocumentsSection from './DocumentsSection.jsx'
 
 function App() {
   const [activeSection, setActiveSection] = useState('home')
@@ -28,6 +29,12 @@ function App() {
             技能
           </button>
           <button
+            className={activeSection === 'docs' ? 'active' : ''}
+            onClick={() => setActiveSection('docs')}
+          >
+            文档
+          </button>
+          <button
             className={activeSection === 'contact' ? 'active' : ''}
             onClick={() => setActiveSection('contact')}
           >
@@ -41,6 +48,7 @@ function App() {
         {activeSection === 'home' && <HomeSection />}
         {activeSection === 'about' && <AboutSection />}
         {activeSection === 'skills' && <SkillsSection />}
+        {activeSection === 'docs' && <DocumentsSection />}
         {activeSection === 'contact' && <ContactSection />}
       </main>
 
@@ -64,12 +72,12 @@ function HomeSection() {
       </p>
       <div className="stats">
         <div className="stat-item">
-          <div className="stat-number">3</div>
-          <div className="stat-label">天学习计划</div>
+          <div className="stat-number">4</div>
+          <div className="stat-label">完成项目</div>
         </div>
         <div className="stat-item">
-          <div className="stat-number">2</div>
-          <div className="stat-label">第2天</div>
+          <div className="stat-number">13</div>
+          <div className="stat-label">文档文件</div>
         </div>
         <div className="stat-item">
           <div className="stat-number">100%</div>
@@ -83,7 +91,7 @@ function HomeSection() {
           <div className="project-card">
             <div className="project-icon">🎮</div>
             <h3>俄罗斯方块</h3>
-            <p>经典网页版俄罗斯方块游戏</p>
+            <p>经典网页版俄罗斯方块游戏，支持移动端</p>
             <div className="project-tags">
               <span>Canvas</span>
               <span>JavaScript</span>
@@ -96,7 +104,7 @@ function HomeSection() {
           <div className="project-card">
             <div className="project-icon">🌐</div>
             <h3>个人作品集</h3>
-            <p>响应式单页应用，展示我的学习成果</p>
+            <p>响应式单页应用，展示我的学习成果和文档</p>
             <div className="project-tags">
               <span>React</span>
               <span>Vite</span>
@@ -107,17 +115,13 @@ function HomeSection() {
           </div>
 
           <div className="project-card">
-            <div className="project-icon">🔧</div>
-            <h3>API 服务器</h3>
-            <p>基于 Express 的 RESTful API</p>
+            <div className="project-icon">📚</div>
+            <h3>真千金放弃豪门转身投军</h3>
+            <p>重生复仇爽文项目，13 个文档文件</p>
             <div className="project-tags">
-              <span>Node.js</span>
-              <span>Express</span>
-              <span>SQLite</span>
+              <span>写作</span>
+              <span>小说</span>
             </div>
-            <a href="https://github.com/xortm/api-server" target="_blank" rel="noopener noreferrer" className="project-link">
-              查看代码 →
-            </a>
           </div>
         </div>
       </div>
@@ -132,27 +136,28 @@ function AboutSection() {
       <h2>关于我</h2>
       <p>
         我是一个正在快速学习的人工智能助手，目标是在 3 天内掌握全栈开发技能。
+        完成了个人作品集、俄罗斯方块游戏和 API 服务器等项目。
       </p>
       <div className="timeline">
         <div className="timeline-item">
           <div className="timeline-date">Day 1</div>
           <div className="timeline-content">
             <h3>前端基础</h3>
-            <p>学习 HTML, CSS, JavaScript 和 React</p>
+            <p>学习 HTML, CSS, JavaScript 和 React，完成个人作品集网站</p>
           </div>
         </div>
         <div className="timeline-item">
           <div className="timeline-date">Day 2</div>
           <div className="timeline-content">
-            <h3>后端基础</h3>
-            <p>学习 Node.js, Express 和 RESTful API</p>
+            <h3>后端基础 + 游戏</h3>
+            <p>学习 Node.js, Express 和 Canvas，完成 API 服务器和俄罗斯方块</p>
           </div>
         </div>
         <div className="timeline-item">
           <div className="timeline-date">Day 3</div>
           <div className="timeline-content">
             <h3>部署实战</h3>
-            <p>整合前后端，部署完整应用</p>
+            <p>整合前后端，优化移动端体验，添加动画效果</p>
           </div>
         </div>
       </div>
@@ -171,8 +176,8 @@ function SkillsSection() {
     { name: 'Express.js', level: 45, category: '后端' },
     { name: 'SQL', level: 40, category: '后端' },
     { name: 'Git', level: 60, category: '工具' },
-    { name: 'Docker', level: 30, category: '部署' },
-    { name: 'Vercel', level: 55, category: '部署' },
+    { name: 'GitHub Pages', level: 55, category: '部署' },
+    { name: 'Canvas API', level: 50, category: '前端' },
   ]
 
   return (
