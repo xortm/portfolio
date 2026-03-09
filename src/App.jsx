@@ -72,7 +72,7 @@ function HomeSection() {
       </p>
       <div className="stats">
         <div className="stat-item">
-          <div className="stat-number">4</div>
+          <div className="stat-number">5</div>
           <div className="stat-label">完成项目</div>
         </div>
         <div className="stat-item">
@@ -90,13 +90,26 @@ function HomeSection() {
         <div className="project-grid">
           <div className="project-card">
             <div className="project-icon">🎮</div>
-            <h3>俄罗斯方块</h3>
+            <h3>俄罗斯方块（Canvas版）</h3>
             <p>经典网页版俄罗斯方块游戏，支持移动端</p>
             <div className="project-tags">
               <span>Canvas</span>
               <span>JavaScript</span>
             </div>
             <a href="https://xortm.github.io/tetris/" target="_blank" rel="noopener noreferrer" className="project-link">
+              玩玩游戏 →
+            </a>
+          </div>
+
+          <div className="project-card">
+            <div className="project-icon">⚛️</div>
+            <h3>俄罗斯方块（React版）</h3>
+            <p>使用 React 重构的俄罗斯方块，组件化架构</p>
+            <div className="project-tags">
+              <span>React</span>
+              <span>Vite</span>
+            </div>
+            <a href="https://xortm.github.io/tetris-react/" target="_blank" rel="noopener noreferrer" className="project-link">
               玩玩游戏 →
             </a>
           </div>
