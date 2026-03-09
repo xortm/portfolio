@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
-const API_BASE = 'http://localhost:3001/api'
+import docsData from './docs-data.json'
 
 // 浏览模式：项目列表 -> 文档列表 -> 文档详情
 const VIEW_MODE = {
@@ -14,73 +13,55 @@ function DocumentsSection() {
   const [projects, setProjects] = useState([])
   const [docs, setDocs] = useState([])
   const [currentProject, setCurrentProject] = useState(null)
-  const [currentDoc, setCurrentProjectDoc] = useState(null)
+  const [currentDoc, setCurrentDoc] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
 
   // 加载项目列表
   useEffect(() => {
-    loadProjects()
-  }, [])
-
-  const loadProjects = async () => {
-    setLoading(true)
-    setError(null)
     try {
-      const response = await fetch(`${API_BASE}/projects`)
-      const data = await response.json()
-
-      if (data.success) {
-        setProjects(data.projects)
+      if (docsData && docsData.projects) {
+        setProjects(docsData.projects)
       } else {
-        setError(data.error || '加载项目失败')
+        setError('无法加载文档数据')
       }
     } catch (err) {
-      setError('连接服务器失败')
-      console.error('Error loading projects:', err)
-    } finally {
-      setLoading(false)
+      setError('解析文档数据失败')
+      console.error('Error loading docs data:', err)
     }
-  }
+  }, [])
 
-  const loadDocs = async (projectName) => {
+  const loadDocs = (projectName) => {
     setLoading(true)
     setError(null)
-    try {
-      const response = await fetch(`${API_BASE}/projects/${encodeURIComponent(projectName)}/docs`)
-      const data = await response.json()
 
-      if (data.success) {
-        setDocs(data.docs)
+    try {
+      const project = projects.find(p => p.name === projectName)
+      if (project && project.docs) {
+        setDocs(project.docs)
         setCurrentProject(projectName)
         setViewMode(VIEW_MODE.DOCS)
       } else {
-        setError(data.error || '加载文档失败')
+        setError('找不到项目文档')
       }
     } catch (err) {
-      setError('连接服务器失败')
+      setError('加载文档失败')
       console.error('Error loading docs:', err)
     } finally {
       setLoading(false)
     }
   }
 
-  const loadDocDetail = async (doc) => {
+  const loadDocDetail = (doc) => {
     setLoading(true)
     setError(null)
-    try {
-      const response = await fetch(`${API_BASE}/projects/${encodeURIComponent(currentProject)}/docs/${encodeURIComponent(doc.path)}`)
-      const data = await response.json()
 
-      if (data.success) {
-        setCurrentProjectDoc(data)
-        setViewMode(VIEW_MODE.DOC_DETAIL)
-      } else {
-        setError(data.error || '加载文档内容失败')
-      }
+    try {
+      setCurrentDoc(doc)
+      setViewMode(VIEW_MODE.DOC_DETAIL)
     } catch (err) {
-      setError('连接服务器失败')
+      setError('加载文档内容失败')
       console.error('Error loading doc detail:', err)
     } finally {
       setLoading(false)
@@ -88,8 +69,16 @@ function DocumentsSection() {
   }
 
   const handleDownload = (doc) => {
-    const downloadUrl = `${API_BASE}/download?project=${encodeURIComponent(currentProject)}&path=${encodeURIComponent(doc.path)}`
-    window.open(downloadUrl, '_blank')
+    // 创建 Blob 并下载
+    const blob = new Blob([doc.content], { type: 'text/markdown;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = doc.name
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
   }
 
   const filteredProjects = projects.filter(p =>
@@ -145,7 +134,7 @@ function DocumentsSection() {
         <div className="error-state">
           <div className="error-icon">⚠️</div>
           <p>{error}</p>
-          <button onClick={loadProjects} className="retry-button">重试</button>
+          <button onClick={() => setError(null)} className="retry-button">重试</button>
         </div>
       ) : filteredProjects.length === 0 ? (
         <div className="empty-state">
@@ -166,10 +155,9 @@ function DocumentsSection() {
 
               <div className="doc-content">
                 <h3 className="doc-title">{project.name}</h3>
-                <p className="doc-description">点击查看项目文档</p>
+                <p className="doc-description">点击查看项目文档 ({project.docs?.length || 0} 个文档)</p>
 
                 <div className="doc-meta">
-                  <span className="doc-date">{formatDate(project.modifiedAt)}</span>
                   <span className="doc-date">更新于 {formatDate(project.modifiedAt)}</span>
                 </div>
               </div>
@@ -247,7 +235,7 @@ function DocumentsSection() {
 
   // 渲染 Markdown 内容
   const renderMarkdown = (content) => {
-    // 简单的 Markdown 渲染（实际项目中应该使用 marked 或 react-markdown 库）
+    // 简单的 Markdown 渲染
     const lines = content.split('\n')
 
     return lines.map((line, index) => {
@@ -286,7 +274,7 @@ function DocumentsSection() {
   const renderDocDetail = () => (
     <div>
       <div className="section-header">
-        <button onClick={() => { setViewMode(VIEW_MODE.DOCS); setCurrentProjectDoc(null); }} className="back-button">
+        <button onClick={() => { setViewMode(VIEW_MODE.DOCS); setCurrentDoc(null); }} className="back-button">
           ← 返回文档列表
         </button>
         <h1 className="section-title">📖 {currentDoc.title}</h1>
